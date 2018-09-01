@@ -30,7 +30,7 @@ A minimum of two containers is required for this example to run properly. In thi
         $ apt list --installed | awk -F'/' '{print $1}' | grep -v Listing | xargs
         ```
         * Copy the output from the above command into your clipboard, and paste it into a file called **InstalledPackages.txt** for safe-keeping somewhere outside of the container.
-        We will use this list of packages later in the guide as our authoritative list for the packages that will be regularly rotated in the Custom Repository container
+        We will use this list of packages later in the guide as our authoritative list for the packages that will be regularly rotated in the **CustomRepository** container
 
     * Exit the container
         ```sh
@@ -75,12 +75,12 @@ A minimum of two containers is required for this example to run properly. In thi
     
     * Setup the environment for retrieving the specific client packages that it will serve
 
-        * Create a folder where you will cache the scrambled version of the packages that are needed by the client devices. We will refer to that folder as /polyverse/client_packages within the context of this guide.
+        * Create a folder where you will cache the scrambled version of the packages that are needed by the client devices. We will refer to that folder as **/polyverse/client_packages** within the context of this guide.
             ```sh
             $ mkdir -p /polyverse/client_packages/downloaded/amd64
             ```
         
-        * Create a blank PackagesToDownload.txt file in /polyverse/client_packages
+        * Create a blank **PackagesToDownload.txt** file in /polyverse/client_packages
             ```sh
             $ cd /polyverse/client_packages
             $ touch PackagesToDownload.txt
@@ -96,12 +96,12 @@ A minimum of two containers is required for this example to run properly. In thi
     * Download the required packages
     *NOTE: These steps should be repeated every 24 hours.*
 
-        * Navigate into the /polyverse/client_packages/downloaded/amd64 folder
+        * Navigate into the **/polyverse/client_packages/downloaded/amd64** folder
             ```sh
             $ cd /polyverse/client_packages/downloaded/amd64
             ```
             
-        * Download the packages into the current folder (should be /polyverse/client_packages/downloaded/amd64)
+        * Download the packages into the current folder (should be **/polyverse/client_packages/downloaded/amd64**)
             ```sh
             $ apt-get download $(cat /polyverse/client_packages/PackagesToDownload.txt | xargs)
             ```
@@ -129,10 +129,10 @@ A minimum of two containers is required for this example to run properly. In thi
         
     * Congratulations! The system is now setup to serve packages to clients without those clients needing to connect to any other source for publicly available packages.
 
-## Existing and New Client Setup
-For this example, since we already have a **Client1** running, we will use **Client2** for our new container.
+## Client Setup
+These instructions are focused on setting up a client to consume from the **CustomRepository**, and they can be applied to both existing and newly setup systems. For this example, since we already have a **Client1** running, we will use **Client2** for our new container.
 
-1. Run a new Client2 container in the background
+1. Open a new terminal session, and run a new client container (**Client2**) in the background. 
     ```sh
     $ docker run -dt --rm --name=Client2 ubuntu:16.04 sh
     ```
@@ -142,7 +142,7 @@ For this example, since we already have a **Client1** running, we will use **Cli
     $ docker exec -it Client2 bash
     ```
     
-3. Backup the current sources.list file
+3. Backup the current **/etc/apt/sources.list** file
     ```sh
     $ cp /etc/apt/sources.list /etc/apt/sources.list.pvbakup
     ```
@@ -159,22 +159,20 @@ You should use whatever the network location for the machine where your custom r
     $ apt-get update
     ```
 
-6. If you are on an existing client that already has all of its packages installed:
-    * Reinstall all of the currently installed packages so that all installed packages will be scrambled
-        ```sh
-        $ apt-get -y install --reinstall $(dpkg --get-selections | awk '{print $1}')
-        ```
+6. Reinstall all of the currently installed packages so that all already installed packages will be scrambled
+    ```sh
+    $ apt-get -y install --reinstall $(dpkg --get-selections | awk '{print $1}')
+    ```
     * If you receive an authentication error, use the `--allow-unauthenticated` flag
         ```sh
         $ apt-get -y install --reinstall $(dpkg --get-selections | awk '{print $1}') --allow-unauthenticated
         ```
 
-7. If you are on a new, vanilla client that does not yet have the required packages installed:
-    * Install any packages that are needed using the standard installation command
+7. Install any packages that are needed using the standard installation command
+    ```sh
+    apt-get install <package_name>
+    ```
+    * Note: If you receive an authentication error, use the `--allow-unauthenticated` flag
         ```sh
-        apt-get install <package_name>
+        $ apt-get -y install --allow-unauthenticated <package_name>
         ```
-        * Note: If you receive an authentication error, use the `--allow-unauthenticated` flag
-            ```sh
-            $ apt-get -y install --allow-unauthenticated <package_name>
-            ```
