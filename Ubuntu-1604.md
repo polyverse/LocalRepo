@@ -66,6 +66,7 @@ A minimum of two containers is required for this example to run properly. In thi
             ```sh
             $ curl -s https://sh.polyverse.io | sh -s install <your_polyverse_auth_key_here>
             ```
+            You can always view your [Polymorphic Linux](https://polyverse.io) auth key at [https://polyverse.io/account](https://polyverse.io/account).
             
         * Update APT to retrieve the new index file from [Polymorphic Linux](https://polyverse.io)
             ```sh
@@ -169,7 +170,7 @@ You should use whatever the network location for the machine where your custom r
         ```
 
 7. If you are on a new, vanilla client that does not yet have the required packages installed:
-    * Install any packages that are needed using standard
+    * Install any packages that are needed using the standard installation command
         ```sh
         apt-get install <package_name>
         ```
