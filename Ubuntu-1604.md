@@ -174,5 +174,5 @@ You should use whatever the network location for the machine where your custom r
     ```
     * Note: If you receive an authentication error, use the `--allow-unauthenticated` flag
         ```sh
-        $ apt-get -y install --allow-unauthenticated <package_name>
+        $ apt-get install --allow-unauthenticated <package_name>
         ```
