@@ -150,7 +150,7 @@ For this example, since we already have a **Client1** running, we will use **Cli
 In this guide, we are using Docker containers, and our **CustomRepository** is another container. This means that we can use docker.for.mac.localhost to identify our current machine as the host.
 You should use whatever the network location for the machine where your custom repository is setup.
     ```sh
-    $ echo “deb http://docker.for.mac.localhost/polyverse/scrambled-packages amd64/” > /etc/apt/sources.list
+    $ echo "deb http://docker.for.mac.localhost/polyverse/scrambled-packages amd64/" > /etc/apt/sources.list
     ```
 
 5. Update APT to retrieve the new index file from the local **CustomRepository** location
