@@ -117,10 +117,7 @@ A minimum of two containers is required for this example to run properly. In thi
         * Install the web server, which will host our repository for client consumption. In this guide, we will be using Apache.
             ```sh
             $ apt-get install -y apache2
-            ```
-
-        * mkdir -p /var/www/html/polyverse
-            ```sh
+            $ mkdir -p /var/www/html/polyverse
             $ ln -s /polyverse/client_packages/downloaded /var/www/html/polyverse/scrambled-packages
             ```
         
